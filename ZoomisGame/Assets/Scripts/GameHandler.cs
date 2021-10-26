@@ -9,9 +9,6 @@ public class GameHandler : MonoBehaviour
         if (collision.gameObject.name == "TriggerMe")
         {
             DialogUI.Instance
-                .SetTitle("Frage")
-                .SetMessage("Hier steht eine Frage?")
-                .SetButtonColor(DialogButtonColor.Blue)
                 .OnClose(
                     () => Restart()
                 ).Show();

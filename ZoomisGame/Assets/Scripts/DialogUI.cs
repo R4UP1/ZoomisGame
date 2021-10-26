@@ -6,39 +6,36 @@ using System.Collections.Generic;
 
 namespace EasyUI.Dialogs {
 
-	public enum DialogButtonColor {
-		Black,
-		Purple,
-		Magenta,
-		Blue,
-		Green,
-		Yellow,
-		Orange,
-		Red
-	}
-
 	public class Dialog {
-		public string Title = "Title";
-		public string Message = "Message goes here.";
-		public string ButtonText = "Close";
-		public float FadeInDuration = .3f;
-		public DialogButtonColor ButtonColor = DialogButtonColor.Black;
+		public string Question = "Frage?";
+		public string Answer1 = "Antwort 1";
+		public string Answer2 = "Antwort 2";
+		public string Answer3 = "Antwort 3";
+		public string Answer4 = "Antwort 4";
 		public UnityAction OnClose = null;
 	}
 
 	public class DialogUI : MonoBehaviour {
 		[SerializeField] GameObject canvas;
-		[SerializeField] Text titleUIText;
-		[SerializeField] Text messageUIText;
-		[SerializeField] Button closeUIButton;
+		[SerializeField] Text questionUIText;
+		[SerializeField] Button answer1Button;
+		[SerializeField] Button answer2Button;
+		[SerializeField] Button answer3Button;
+		[SerializeField] Button answer4Button;
 
-		Image closeUIButtonImage;
-		Text closeUIButtonText;
-		CanvasGroup canvasGroup;
+		Image answer1ButtonImage;
+		Image answer2ButtonImage;
+		Image answer3ButtonImage;
+		Image answer4ButtonImage;
+
+		Text answer1ButtonText;
+		Text answer2ButtonText;
+		Text answer3ButtonText;
+		Text answer4ButtonText;
+
+        CanvasGroup canvasGroup;
 
 		[Space ( 20f )]
-		[Header ( "Close button colors" )]
-		[SerializeField] Color[] buttonColors;
 
 		Queue<Dialog> dialogsQueue = new Queue<Dialog> ( );
 		Dialog dialog = new Dialog ( );
@@ -54,47 +51,68 @@ namespace EasyUI.Dialogs {
 		void Awake ( ) {
 			Instance = this;
 
-			closeUIButtonImage = closeUIButton.GetComponent <Image> ( );
-			closeUIButtonText = closeUIButton.GetComponentInChildren <Text> ( );
+			answer1ButtonImage = answer1Button.GetComponent <Image> ( );
+			answer2ButtonImage = answer2Button.GetComponent <Image> ( );
+			answer3ButtonImage = answer3Button.GetComponent <Image> ( );
+			answer4ButtonImage = answer4Button.GetComponent <Image> ( );
+
+			answer1ButtonText = answer1Button.GetComponentInChildren <Text> ( );
+			answer2ButtonText = answer2Button.GetComponentInChildren <Text> ( );
+			answer3ButtonText = answer3Button.GetComponentInChildren <Text> ( );
+			answer4ButtonText = answer4Button.GetComponentInChildren <Text> ( );
+
 			canvasGroup = canvas.GetComponent <CanvasGroup> ( );
 
 			//Add close event listener
-			closeUIButton.onClick.RemoveAllListeners ( );
-			closeUIButton.onClick.AddListener ( Hide );
+			answer1Button.onClick.RemoveAllListeners();
+			answer1Button.onClick.AddListener(ChooseAnswer1);
+
+            answer2Button.onClick.RemoveAllListeners();
+            answer2Button.onClick.AddListener(ChooseAnswer2);
+
+            answer3Button.onClick.RemoveAllListeners();
+            answer3Button.onClick.AddListener(ChooseAnswer3);
+
+            answer4Button.onClick.RemoveAllListeners();
+            answer4Button.onClick.AddListener(ChooseAnswer4);
 		}
 
-		
-		public DialogUI SetTitle ( string title ) {
-			dialog.Title = title;
+
+        public DialogUI SetQuestion ( string question ) {
+			dialog.Question = question;
 			return Instance;
 		}
 
-		
-		public DialogUI SetMessage ( string message ) {
-			dialog.Message = message;
-			return Instance;
-		}
 
-		
-		public DialogUI SetButtonText ( string text ) {
-			dialog.ButtonText = text;
-			return Instance;
-		}
+        public DialogUI SetAnswer1(string answer)
+        {
+            dialog.Answer1 = answer;
+            return Instance;
+        }
 
-		
-		public DialogUI SetButtonColor ( DialogButtonColor color ) {
-			dialog.ButtonColor = color;
-			return Instance;
-		}
 
-		
-		public DialogUI SetFadeInDuration ( float duration ) {
-			dialog.FadeInDuration = duration;
-			return Instance;
-		}
+        public DialogUI SetAnswer2(string answer)
+        {
+            dialog.Answer2 = answer;
+            return Instance;
+        }
 
-		
-		public DialogUI OnClose ( UnityAction action ) {
+
+        public DialogUI SetAnswer3(string answer)
+        {
+            dialog.Answer3 = answer;
+            return Instance;
+        }
+
+
+        public DialogUI SetAnswer4(string answer)
+        {
+            dialog.Answer4 = answer;
+            return Instance;
+        }
+        
+        
+        public DialogUI OnClose ( UnityAction action ) {
 			dialog.OnClose = action;
 			return Instance;
 		}
@@ -113,15 +131,15 @@ namespace EasyUI.Dialogs {
 
 		void ShowNextDialog ( ) {
 			tempDialog = dialogsQueue.Dequeue ( );
-
-			titleUIText.text = tempDialog.Title;
-			messageUIText.text = tempDialog.Message;
-			closeUIButtonText.text = tempDialog.ButtonText.ToUpper ( );
-			closeUIButtonImage.color = buttonColors [ ( int )tempDialog.ButtonColor ];
+			
+			questionUIText.text = tempDialog.Question;
+			answer1ButtonText.text = tempDialog.Answer1.ToUpper ( );
+			answer2ButtonText.text = tempDialog.Answer2.ToUpper ( );
+			answer3ButtonText.text = tempDialog.Answer3.ToUpper ( );
+			answer4ButtonText.text = tempDialog.Answer4.ToUpper ( );
 
 			canvas.SetActive ( true );
 			IsActive = true;
-			// StartCoroutine ( FadeIn ( tempDialog.FadeInDuration ) );
 		}
 
 
@@ -140,20 +158,34 @@ namespace EasyUI.Dialogs {
 				ShowNextDialog ( );
 		}
 
+        //-------------------------------------
 
-		//-------------------------------------
+        public void ChooseAnswer1()
+        {
+			// Hier passiert was...
+			Hide();
+        }
 
-		IEnumerator FadeIn ( float duration ) {
-			float startTime = Time.time;
-			float alpha = 0f;
 
-			while ( alpha < 1f ) {
-				alpha = Mathf.Lerp ( 0f, 1f, (Time.time - startTime) / duration );
-				canvasGroup.alpha = alpha;
+        public void ChooseAnswer2()
+        {
+            // Hier passiert was...
+            Hide();
+        }
 
-				yield return null;
-			}
-		}
+
+        public void ChooseAnswer3()
+        {
+            // Hier passiert was...
+            Hide();
+        }
+
+
+        public void ChooseAnswer4()
+        {
+            // Hier passiert was...
+            Hide();
+        }
 	}
 
 }
