@@ -15,7 +15,7 @@ public class MainMenuHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     // OnClickStart is called when "Start Game" button is clicked
@@ -32,6 +32,13 @@ public class MainMenuHandler : MonoBehaviour
 
     public void QuitGame()
     {
+        Globals.SaveGame();
         Application.Quit();
+    }
+
+    [RuntimeInitializeOnLoadMethod]
+    static void OnRuntimeMethodLoad()
+    {
+        Globals.LoadGame();
     }
 }
