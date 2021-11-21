@@ -7,14 +7,21 @@ public class CarController : MonoBehaviour
 	[Header("Car settings")] 
 	// If drift factor is closer to 1, it floats more - 0 = more train like
 	public float driftFactor = 0.01f;
-	public float accelerationFactor = 20f;
+	public float accelerationFactor = 5;
 	public float turnFactor = 4.5f;
 
 	// Local variable 
 	float accelerationInput = 0;
 	float steeringInput = 0;
-	
 	float rotationAngle = 0;
+	
+	private string buttonPressed;
+	private const string BREAK = "break";
+	private float breakFactor = 0.05f;
+	private Vector3 previousPosition;
+	private Vector3 movement;
+	private Vector3 newPosition;
+	private Vector3 forward;
 
 	// Components
 	Rigidbody2D carRigidbody2D;
@@ -32,6 +39,18 @@ public class CarController : MonoBehaviour
 
 		carRigidbody2D.velocity = forwardVelocity + rightVelocity * driftFactor;
 
+	}
+	
+	private void Update()
+	{
+		if (Input.GetKey(KeyCode.Space))
+		{
+			buttonPressed = BREAK;
+			ApplyBreaking();
+		}
+
+		previousPosition = transform.position;
+		forward = transform.forward;
 	}
 
 	void FixedUpdate()
@@ -51,6 +70,22 @@ public class CarController : MonoBehaviour
 		//Apply force and pushes the car forward
 		carRigidbody2D.AddForce(engineForceVector, ForceMode2D.Force);
 		
+	}
+	
+	void ApplyBreaking()
+	{
+		// If Car is moving forwards break slowly
+		if (carRigidbody2D.velocity.x > 0f || carRigidbody2D.velocity.y > 0f)
+		{
+			Vector2 breakVector = -(transform.up * breakFactor * accelerationFactor);
+			carRigidbody2D.AddForce(breakVector, ForceMode2D.Force);
+		}
+		
+		// If Car starts moving backwards, come to full stop
+		if (carRigidbody2D.velocity.x < 0f && carRigidbody2D.velocity.y < 0f)
+		{
+			carRigidbody2D.velocity = new Vector2(0, 0);
+		}
 	}
 
 	void ApplySteering()
