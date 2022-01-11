@@ -1,91 +1,139 @@
-using EasyUI.Dialogs;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameHandler : MonoBehaviour
+namespace SceneHandlers
 {
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class GameHandler : MonoBehaviour
     {
-        switch (collision.gameObject.name)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            case "TriggerQuestion1":
-                DialogUI.Instance
-                    .SetQuestion("Sie sind auf den Weg zum Kunden: Welche Dinge sind wichtig zu beachten?")
-                    .SetAnswer1("Ich hab meine Zigaretten dabei um nach dem Ausliefern gemütlich eine zu Rauchen.")
-                    .SetAnswer2("Ich achte auf die StVO und beobachte stets den Straßenverkehr oder auffällige Autos hinter mir.")
-                    .SetAnswer3("Ich habe das Auto vollgetankt um nicht am Straßenrand stecken zu bleiben und Gefahren ausgesetzt zu sein.")
-                    .OnClose(
-                        () => Restart()
-                    ).Show();
-                Pause();
-                break;
+            switch (collision.gameObject.name)
+            {
+                case "TriggerQuestion1":
+                    ShowQuestion1Popup();
+                    break;
 
-            case "TriggerQuestion2":
-                DialogUI.Instance
-                    .SetQuestion("Wo ist es wohl am besten zum Parken?")
-                    .SetAnswer1("…am besten gleich beim McDonalds um die Ecke, damit wir nach dem Auftrag nochschnell einen Burger essen können.")
-                    .SetAnswer2("…am besten so nah wie möglich bei dem Kunden. Wenn möglich so, dass man das Autohin und wieder überprüfen kann.")
-                    .SetAnswer3("…am besten in der Nähe einer Baustelle, da durch das laute Arbeiten die Menschendie Nähe einer Baustelle eher meiden.")
-                    .OnClose(
-                        () => Restart()
-                    ).Show();
-                Pause();
-                break;
+                case "TriggerQuestion2":
+                    ShowQuestion2Popup();
+                    break;
 
-            case "TriggerQuestion3":
-                DialogUI.Instance
-                    .SetQuestion("Nun haben Sie den perfekten Parkplatz gefunden und gehen nun zu dem Kunden zur Anmeldung.")
-                    .SetAnswer1("Im Eingangsbereich herumschreien „WO MUSS ICH MIT DEMGELD HIN!!“")
-                    .SetAnswer2("Sie suchen den Empfang und begrüßen allevorbeigehenden Mitarbeiter.")
-                    .SetAnswer3("Sie übergeben das Geld den nächstbestenMitarbeiter und schauen, dass Sie so schnell wie möglich zu den nächsten Kundenfahren können.")
-                    .OnClose(
-                        () => Restart()
-                    ).Show();
-                Pause();
-                break;
+                case "TriggerQuestion3":
+                    ShowQuestion3Popup();
+                    break;
 
-            case "TriggerQuestion4":
-                DialogUI.Instance
-                    .SetQuestion("Es wird zeit sich wieder auf den Weg zum nächsten Kunden zu machen, welcher Punkt ist der wichtigste beim Verabschieden?")
-                    .SetAnswer1("Man geht nochmal sicher,ob auch wirklich sowohl der Fahrer als auch der Kunde, die ordnungsgemäßeÜbergabe/Übernahme der Werte unterschrieben haben.")
-                    .SetAnswer2("Man steckt 1-2 Euro vonden Safebags für Trinkgeld ein.")
-                    .SetAnswer3("Man vergewissert sichein letztes Mal, ob man bei dem richtigen Kunden ist.")
-                    .OnClose(
-                        () => Restart()
-                    ).Show();
-                Pause();
-                break;
+                case "TriggerQuestion4":
+                    ShowQuestion4Popup();
+                    break;
+
+                case "TriggerGoal":
+                    ShowVictoryPopup();
+                    break;
+            }
+
+
+            if (collision.gameObject.name == "TriggerMe")
+            {
+            }
         }
 
-
-
-
-
-
-
-
-
-
-        if (collision.gameObject.name == "TriggerMe")
+        private static void ShowQuestion1Popup()
         {
-            DialogUI.Instance
-                .OnClose(
-                    () => Restart()
-                ).Show();
-            Pause();
+            var dialog = DialogPopup.Instance;
+
+            dialog.questionText.text = "Sie sind auf den Weg zum Kunden: Welche Dinge sind wichtig zu beachten?";
+
+            dialog.answer1ButtonText.text =
+                "Ich hab meine Zigaretten dabei um nach dem Ausliefern gemï¿½tlich eine zu Rauchen.";
+            dialog.answer2ButtonText.text =
+                "Ich achte auf die StVO und beobachte stets den Straï¿½enverkehr oder auffï¿½llige Autos hinter mir.";
+            dialog.answer3ButtonText.text =
+                "Ich habe das Auto vollgetankt um nicht am Straï¿½enrand stecken zu bleiben und Gefahren ausgesetzt zu sein.";
+
+            dialog.Answer1Action = () => print("Clicked 1!");
+            dialog.Answer2Action = () => print("Clicked 2!");
+            dialog.Answer3Action = () => print("Clicked 3!");
+
+            dialog.Show();
         }
 
+        private static void ShowQuestion2Popup()
+        {
+            var dialog = DialogPopup.Instance;
+
+            dialog.questionText.text = "Wo ist es wohl am besten zum Parken?";
+
+            dialog.answer1ButtonText.text =
+                "ï¿½am besten gleich beim McDonalds um die Ecke, damit wir nach dem Auftrag nochschnell einen Burger essen kï¿½nnen.";
+            dialog.answer2ButtonText.text =
+                "ï¿½am besten so nah wie mï¿½glich bei dem Kunden. Wenn mï¿½glich so, dass man das Autohin und wieder ï¿½berprï¿½fen kann.";
+            dialog.answer3ButtonText.text =
+                "ï¿½am besten in der Nï¿½he einer Baustelle, da durch das laute Arbeiten die Menschendie Nï¿½he einer Baustelle eher meiden.";
+
+            dialog.Answer1Action = () => print("Clicked 1!");
+            dialog.Answer2Action = () => print("Clicked 2!");
+            dialog.Answer3Action = () => print("Clicked 3!");
+
+            dialog.Show();
+        }
+
+        private static void ShowQuestion3Popup()
+        {
+            var dialog = DialogPopup.Instance;
+
+            dialog.questionText.text =
+                "Nun haben Sie den perfekten Parkplatz gefunden und gehen nun zu dem Kunden zur Anmeldung.";
+            dialog.answer1ButtonText.text = "Im Eingangsbereich herumschreien ï¿½WO MUSS ICH MIT DEMGELD HIN!!ï¿½";
+            dialog.answer2ButtonText.text = "Sie suchen den Empfang und begrï¿½ï¿½en allevorbeigehenden Mitarbeiter.";
+            dialog.answer3ButtonText.text =
+                "Sie ï¿½bergeben das Geld den nï¿½chstbestenMitarbeiter und schauen, dass Sie so schnell wie mï¿½glich zu den nï¿½chsten Kundenfahren kï¿½nnen.";
+
+            dialog.Answer1Action = () => print("Clicked 1!");
+            dialog.Answer2Action = () => print("Clicked 2!");
+            dialog.Answer3Action = () => print("Clicked 3!");
+
+            dialog.Show();
+        }
+
+        private static void ShowQuestion4Popup()
+        {
+            var dialog = DialogPopup.Instance;
+
+            dialog.questionText.text =
+                "Es wird zeit sich wieder auf den Weg zum nï¿½chsten Kunden zu machen, welcher Punkt ist der wichtigste beim Verabschieden?";
+
+            dialog.answer1ButtonText.text =
+                "Man geht nochmal sicher,ob auch wirklich sowohl der Fahrer als auch der Kunde, die ordnungsgemï¿½ï¿½eï¿½bergabe/ï¿½bernahme der Werte unterschrieben haben.";
+            dialog.answer2ButtonText.text = "Man steckt 1-2 Euro vonden Safebags fï¿½r Trinkgeld ein.";
+            dialog.answer3ButtonText.text = "Man vergewissert sichein letztes Mal, ob man bei dem richtigen Kunden ist.";
+
+            dialog.Answer1Action = () => print("Clicked 1!");
+            dialog.Answer2Action = () => print("Clicked 2!");
+            dialog.Answer3Action = () => print("Clicked 3!");
+
+            dialog.Show();
+        }
+
+        private static void ShowVictoryPopup()
+        {
+            VictoryPopup.Instance.canvas.SetActive(true);
+            PauseGame();
+        }
+
+        public static void PauseGame()
+        {
+            Time.timeScale = 0;
+        }
+
+        public static void ResumeToGame()
+        {
+            Time.timeScale = 1;
+        }
+    
+        // OnClickHighScore is called when "Show Highscore" button is clicked
+        public void OnClickHighScore()
+        {
+            SceneManager.LoadScene("HighScorePage");
+            ResumeToGame();
+        }
     }
-
-    void Pause()
-    {
-        Time.timeScale = 0;
-
-    }
-
-    void Restart()
-    {
-        Time.timeScale = 1;
-    }
-
 }
