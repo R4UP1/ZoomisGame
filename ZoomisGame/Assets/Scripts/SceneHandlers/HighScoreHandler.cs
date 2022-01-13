@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -7,19 +5,14 @@ using UnityEngine.SceneManagement;
 public class HighScoreHandler : MonoBehaviour
 {
 
-    [SerializeField]
-    private Text _score;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    [SerializeField] private Text score;
+    [SerializeField] private Text feedback;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        _score.text = Globals.GetHighScore().ToString();
+        score.text = Globals.GetScore().ToString();
+        feedback.text = Globals.GetProtocolString();
     }
 
     // OnClickResetScore is called when "Reset Score" button is clicked
