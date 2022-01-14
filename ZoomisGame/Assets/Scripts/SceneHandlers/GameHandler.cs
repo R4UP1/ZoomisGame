@@ -32,7 +32,7 @@ namespace SceneHandlers
 
 
                 _goal = GameObject.Find("TriggerGoal");
-                
+
                 SetFinishedState(false);
                 PauseGame();
             }
@@ -136,8 +136,16 @@ namespace SceneHandlers
                 Globals.IncScore(dialog.answer1ButtonText.text + "(Falsch geparkt!)", 0);
                 SetQuestion1State(false);
             };
-            dialog.Answer2Action = () => { SetQuestion1State(false); };
-            dialog.Answer3Action = () => { SetQuestion1State(false); };
+            dialog.Answer2Action = () =>
+            {
+                Globals.IncScore(dialog.answer2ButtonText.text + "(Falsch geparkt!)", 0);
+                SetQuestion1State(false);
+            };
+            dialog.Answer3Action = () =>
+            {
+                Globals.IncScore(dialog.answer3ButtonText.text + "(Falsch geparkt!)", 0);
+                SetQuestion1State(false);
+            };
 
             dialog.Show();
         }
@@ -187,9 +195,21 @@ namespace SceneHandlers
             dialog.answer3ButtonText.text =
                 "Am besten in der Nähe einer Baustelle, da durch das laute Arbeiten die Menschen die Nähe einer Baustelle eher meiden.";
 
-            dialog.Answer1Action = () => { SetQuestion2State(false); };
-            dialog.Answer2Action = () => { SetQuestion2State(false); };
-            dialog.Answer3Action = () => { SetQuestion2State(false); };
+            dialog.Answer1Action = () =>
+            {
+                Globals.IncScore(dialog.answer1ButtonText.text + "(Falsch geparkt!)", 0);
+                SetQuestion2State(false);
+            };
+            dialog.Answer2Action = () =>
+            {
+                Globals.IncScore(dialog.answer2ButtonText.text + "(Falsch geparkt!)", 0);
+                SetQuestion2State(false);
+            };
+            dialog.Answer3Action = () =>
+            {
+                Globals.IncScore(dialog.answer3ButtonText.text + "(Falsch geparkt!)", 0);
+                SetQuestion2State(false);
+            };
 
             dialog.Show();
         }
@@ -269,9 +289,21 @@ namespace SceneHandlers
             dialog.answer3ButtonText.text =
                 "Man vergewissert sich ein letztes Mal, ob man bei dem richtigen Kunden ist.";
 
-            dialog.Answer1Action = () => { SetQuestion4State(false); };
-            dialog.Answer2Action = () => { SetQuestion4State(false); };
-            dialog.Answer3Action = () => { SetQuestion4State(false); };
+            dialog.Answer1Action = () =>
+            {
+                Globals.IncScore(dialog.answer1ButtonText.text + "(Falsch geparkt!)", 0);
+                SetQuestion4State(false);
+            };
+            dialog.Answer2Action = () =>
+            {
+                Globals.IncScore(dialog.answer2ButtonText.text + "(Falsch geparkt!)", 0);
+                SetQuestion4State(false);
+            };
+            dialog.Answer3Action = () =>
+            {
+                Globals.IncScore(dialog.answer3ButtonText.text + "(Falsch geparkt!)", 0);
+                SetQuestion4State(false);
+            };
 
             dialog.Show();
         }
@@ -301,6 +333,10 @@ namespace SceneHandlers
         // OnClickHighScore is called when "Show Highscore" button is clicked
         public void OnClickHighScore()
         {
+            if (Globals.GetScore() > Globals.GetHighScore())
+            {
+                Globals.SetHighScore(Globals.GetScore());
+            }
             SceneManager.LoadScene("HighScorePage");
             ResumeToGame();
         }

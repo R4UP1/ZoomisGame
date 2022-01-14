@@ -5,12 +5,14 @@ using UnityEngine.SceneManagement;
 public class HighScoreHandler : MonoBehaviour
 {
 
+    [SerializeField] private Text highScore;
     [SerializeField] private Text score;
     [SerializeField] private Text feedback;
 
     // Update is called once per frame
     private void Update()
     {
+        highScore.text = Globals.GetHighScore().ToString();
         score.text = Globals.GetScore().ToString();
         feedback.text = Globals.GetProtocolString();
     }
