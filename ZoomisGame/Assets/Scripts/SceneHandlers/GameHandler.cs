@@ -32,6 +32,9 @@ namespace SceneHandlers
 
 
                 _goal = GameObject.Find("TriggerGoal");
+                
+                SetFinishedState(false);
+                PauseGame();
             }
         }
 
@@ -128,7 +131,11 @@ namespace SceneHandlers
             dialog.answer3ButtonText.text =
                 "Ich habe das Auto voll getankt um nicht am Straßenrand stecken zu bleiben und Gefahren ausgesetzt zu sein.";
 
-            dialog.Answer1Action = () => { SetQuestion1State(false); };
+            dialog.Answer1Action = () =>
+            {
+                Globals.IncScore(dialog.answer1ButtonText.text + "(Falsch geparkt!)", 0);
+                SetQuestion1State(false);
+            };
             dialog.Answer2Action = () => { SetQuestion1State(false); };
             dialog.Answer3Action = () => { SetQuestion1State(false); };
 
@@ -283,6 +290,12 @@ namespace SceneHandlers
         public static void ResumeToGame()
         {
             Time.timeScale = 1;
+        }
+
+        public static void CloseTutorial()
+        {
+            GameObject.Find("TutorialPopup").SetActive(false);
+            ResumeToGame();
         }
 
         // OnClickHighScore is called when "Show Highscore" button is clicked
